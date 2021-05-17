@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+VAGRANTFILE_BOX = 'bento/debian-10'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    # set box
+    config.vm.box = VAGRANTFILE_BOX
+
+    # forward ports
+    config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "forwarded_port", guest: 3306, host: 3306
+
+    # set synced folder
+    config.vm.synced_folder '.', '/var/www'
+
+    # files to run at provision
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING BASE"'
+    config.vm.provision 'shell', :path => 'vagrant/Base.sh'
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING APACHE"'
+    config.vm.provision 'shell', :path => 'vagrant/Apache.sh'
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING DATABASE"'
+    config.vm.provision 'shell', :path => 'vagrant/Database.sh'
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING PHP"'
+    config.vm.provision 'shell', :path => 'vagrant/Php.sh'
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING INITIAL INSTALLATION"'
+    config.vm.provision 'shell', :path => 'vagrant/Installation.sh'
+
+    config.vm.provision 'shell', :inline => 'echo "ENTERING PROJECT"'
+    config.vm.provision 'shell', :path => 'vagrant/Project.sh'
+end
