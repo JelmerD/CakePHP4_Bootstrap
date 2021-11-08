@@ -34,6 +34,7 @@ if [ ! -f index.php ]; then
         # there is probably a .git dir present, make sure to get rid of it
         if [ -d .git/ ]; then
           echo "==> Removing .git directory to prevent VCS errors"
+          chmod -R 777 .git #make sure we have the rights to do so
           rm .git/ -Rf
         fi
 
