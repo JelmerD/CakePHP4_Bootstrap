@@ -44,9 +44,15 @@ if [ -f index.php ]; then
             composer install --prefer-source
     fi
 
-    # TODO implement this
-    #echo "==> Migrating the database tables..."
-    #bin/cake migrations migrate
+    # make sure the database is up to date with the latest changes
+    echo "==> Migrating the database"
+    bin/cake migrations migrate
+
+    # make sure there is some data in the tables, based on the data dumps
+    if [ -f data/dump.sh ]; then
+        echo "==> Adding data"
+        bash data/dump.sh recover
+    fi
 
     # use the custom bash script to throw in some basic to use data that we need
     # echo "==> adding data to the database..."
