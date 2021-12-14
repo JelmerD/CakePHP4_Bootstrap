@@ -6,8 +6,8 @@ if ! grep -q "cd /var/www" /home/vagrant/.profile; then
     echo "cd /var/www" >> /home/vagrant/.profile
 fi
 
-echo "==> Updating apt-get-get..."
-apt-get update
+echo "==> Updating apt..."
+apt-get --allow-releaseinfo-change -y update
 
 echo "==> Installing/updating build-essential..."
 apt-get install -y build-essential
